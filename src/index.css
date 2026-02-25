@@ -1,0 +1,331 @@
+/* ===================================================
+   Design System  —  Student Directory
+   ===================================================
+   Color Theory · Light/Dark Modes · Motion Tokens
+   =================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ══════════════════════════════════════════
+   🎨 COLOR SYSTEM — LIGHT MODE (default)
+   ══════════════════════════════════════════
+   
+   Primary  #2563EB (Blue 600)
+     → Trust, credibility, education. Blue is the #1 color in SaaS
+       and ed-tech — it feels stable, institutional, and professional.
+   
+   Secondary  #7C3AED (Violet 600)
+     → Creativity, modernity, youthfulness. Complements blue without
+       competing. Used sparingly for accents and highlights.
+   
+   Accent  #F59E0B (Amber 500)
+     → Warmth, achievement, attention. Used for stars, top performers,
+       and warning states. Evokes gold medals and accomplishment.
+   
+   Success  #16A34A (Green 600)  →  Growth, present, positive
+   Warning  #D97706 (Amber 600)  →  Caution, attention needed
+   Error    #DC2626 (Red 600)    →  Danger, absent, removal
+   
+   Neutral scale from Slate — warm-cool gray that reads
+   professional without looking cold or sterile.
+   ══════════════════════════════════════════ */
+:root {
+  /* ── Brand Colors ── */
+  --clr-primary:        #2563EB;
+  --clr-primary-hover:  #1D4ED8;
+  --clr-primary-light:  #DBEAFE;
+  --clr-primary-subtle: rgba(37, 99, 235, 0.08);
+  --clr-primary-ring:   rgba(37, 99, 235, 0.25);
+
+  --clr-secondary:        #7C3AED;
+  --clr-secondary-hover:  #6D28D9;
+  --clr-secondary-light:  #EDE9FE;
+  --clr-secondary-subtle: rgba(124, 58, 237, 0.08);
+
+  --clr-accent:        #F59E0B;
+  --clr-accent-hover:  #D97706;
+  --clr-accent-light:  #FEF3C7;
+
+  /* ── Neutral Palette (Slate) ── */
+  --clr-bg:            #F8FAFC;
+  --clr-bg-elevated:   #FFFFFF;
+  --clr-surface:       #FFFFFF;
+  --clr-surface-hover: #F1F5F9;
+  --clr-border:        #E2E8F0;
+  --clr-border-strong: #CBD5E1;
+  --clr-overlay:       rgba(15, 23, 42, 0.5);
+
+  /* ── Text ── */
+  --clr-text:          #0F172A;
+  --clr-text-secondary:#334155;
+  --clr-text-muted:    #64748B;
+  --clr-text-disabled: #94A3B8;
+  --clr-text-inverse:  #FFFFFF;
+
+  /* ── Status ── */
+  --clr-success:       #16A34A;
+  --clr-success-bg:    #DCFCE7;
+  --clr-success-border:#BBF7D0;
+  --clr-warning:       #D97706;
+  --clr-warning-bg:    #FEF3C7;
+  --clr-warning-border:#FDE68A;
+  --clr-danger:        #DC2626;
+  --clr-danger-hover:  #B91C1C;
+  --clr-danger-bg:     #FEE2E2;
+  --clr-danger-border: #FECACA;
+
+  /* ── Legacy aliases (backward compatible) ── */
+  --clr-present:       var(--clr-success);
+  --clr-present-bg:    var(--clr-success-bg);
+  --clr-absent:        var(--clr-danger);
+  --clr-absent-bg:     var(--clr-danger-bg);
+  --clr-star:          var(--clr-accent);
+  --clr-star-bg:       var(--clr-accent-light);
+
+  /* ── Spacing Scale (4px base) ── */
+  --sp-2:   2px;
+  --sp-4:   4px;
+  --sp-6:   6px;
+  --sp-8:   8px;
+  --sp-10:  10px;
+  --sp-12:  12px;
+  --sp-16:  16px;
+  --sp-20:  20px;
+  --sp-24:  24px;
+  --sp-32:  32px;
+  --sp-40:  40px;
+  --sp-48:  48px;
+  --sp-64:  64px;
+
+  /* ── Radii ── */
+  --radius-xs:  4px;
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md:  0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg:  0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-xl:  0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-focus: 0 0 0 3px var(--clr-primary-ring);
+
+  /* ══════════════════════════════════════════
+     🎞️ MOTION TOKENS
+     ══════════════════════════════════════════
+     All durations 120ms–300ms. Fast for micro-interactions
+     (buttons, hover), medium for component animations
+     (cards, modals), slow only for page-level transitions.
+     
+     Easing: ease-out for enters, ease-in for exits.
+     Spring-like overshoot via cubic-bezier for playful elements.
+     ══════════════════════════════════════════ */
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:      cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-in-out:  cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce:  cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+  --duration-instant: 0ms;
+  --duration-fast:    120ms;
+  --duration-normal:  200ms;
+  --duration-medium:  250ms;
+  --duration-slow:    300ms;
+  --duration-page:    350ms;
+
+  /* Composed transitions */
+  --transition-fast:  120ms var(--ease-out);
+  --transition-med:   250ms var(--ease-out);
+  --transition-slow:  300ms var(--ease-out);
+  --transition-spring: 300ms var(--ease-spring);
+  --transition-page:  350ms var(--ease-out);
+
+  /* ── Typography ── */
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.6;
+  color: var(--clr-text);
+  background-color: var(--clr-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ══════════════════════════════════════════
+   🌙 DARK MODE
+   ══════════════════════════════════════════
+   Triggered by [data-theme="dark"] on <html>.
+   
+   Dark theme uses Slate 900/800 backgrounds — warm enough
+   to avoid the "OLED black" harshness, preserving readability.
+   Primary blue lightened to #60A5FA for WCAG AA on dark bg.
+   ══════════════════════════════════════════ */
+[data-theme="dark"] {
+  --clr-primary:        #60A5FA;
+  --clr-primary-hover:  #93C5FD;
+  --clr-primary-light:  rgba(96, 165, 250, 0.15);
+  --clr-primary-subtle: rgba(96, 165, 250, 0.08);
+  --clr-primary-ring:   rgba(96, 165, 250, 0.3);
+
+  --clr-secondary:        #A78BFA;
+  --clr-secondary-hover:  #C4B5FD;
+  --clr-secondary-light:  rgba(167, 139, 250, 0.15);
+  --clr-secondary-subtle: rgba(167, 139, 250, 0.08);
+
+  --clr-accent:        #FBBF24;
+  --clr-accent-hover:  #FCD34D;
+  --clr-accent-light:  rgba(251, 191, 36, 0.15);
+
+  --clr-bg:            #0F172A;
+  --clr-bg-elevated:   #1E293B;
+  --clr-surface:       #1E293B;
+  --clr-surface-hover: #334155;
+  --clr-border:        #334155;
+  --clr-border-strong: #475569;
+  --clr-overlay:       rgba(0, 0, 0, 0.6);
+
+  --clr-text:          #F1F5F9;
+  --clr-text-secondary:#CBD5E1;
+  --clr-text-muted:    #94A3B8;
+  --clr-text-disabled: #64748B;
+  --clr-text-inverse:  #0F172A;
+
+  --clr-success:       #4ADE80;
+  --clr-success-bg:    rgba(74, 222, 128, 0.12);
+  --clr-success-border:rgba(74, 222, 128, 0.25);
+  --clr-warning:       #FBBF24;
+  --clr-warning-bg:    rgba(251, 191, 36, 0.12);
+  --clr-warning-border:rgba(251, 191, 36, 0.25);
+  --clr-danger:        #F87171;
+  --clr-danger-hover:  #FCA5A5;
+  --clr-danger-bg:     rgba(248, 113, 113, 0.12);
+  --clr-danger-border: rgba(248, 113, 113, 0.25);
+
+  --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md:  0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg:  0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+  --shadow-xl:  0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+}
+
+/* ══════════════════════════════════════════
+   🎞️ MOTION SYSTEM — Page & Component Animations
+   ══════════════════════════════════════════ */
+
+/* Page enter — fade up (applied to route wrappers) */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card stagger entrance */
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Fade in (generic) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Slide up (for modals / alerts) */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Badge pop entrance */
+@keyframes badgePop {
+  0%   { opacity: 0; transform: scale(0.75); }
+  60%  { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Pulse (loading indicator) */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+
+/* Spin (for spinners) */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ══════════════════════════════════════════
+   Prefer reduced motion — respect a11y
+   ══════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ══════════════════════════════════════════
+   Base Elements
+   ══════════════════════════════════════════ */
+body {
+  min-height: 100vh;
+  transition: background-color var(--transition-slow), color var(--transition-slow);
+}
+
+#root {
+  width: 100%;
+}
+
+input, select, button, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Focus ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
+}
+
+/* Smooth appearance for dark mode transitions */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0ms;
+}
+
