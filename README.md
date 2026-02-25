@@ -12,12 +12,17 @@ A modern, responsive student management dashboard built with **React 19** and **
 
 | Feature | Description |
 |---------|-------------|
-| **Student Management** | Add, remove, and view students with name, course, and grade |
+| **Student Management** | Add, edit, remove, and view students with name, course, and grade |
+| **Inline Editing** | Edit any student's name, course, or grade directly on their card |
 | **Attendance Tracking** | Toggle student attendance (Present / Absent) with one click |
 | **Grade Monitoring** | View grades at a glance; top performers (≥ 90) are highlighted with a badge |
+| **Dashboard Stats** | Overview panel showing total students, average grade, attendance rate, top performers, highest & lowest grades |
+| **Course Breakdown** | Per-course statistics with student count, average grade, and attendance rate with visual progress bars |
 | **Search** | Real-time search by student name |
 | **Filter** | Filter by attendance status (Present / Absent) or by course |
 | **Sort** | Sort students alphabetically (A–Z) or by grade (high → low) |
+| **Export CSV** | Download all student data as a `.csv` file |
+| **Reset Data** | One-click reset back to default seed data |
 | **Authentication** | Register & login system with protected dashboard route |
 | **Dark / Light Mode** | Theme toggle that respects OS preference and persists your choice |
 | **Local Persistence** | All data (students, auth, theme) stored in `localStorage` — no backend needed |
@@ -55,12 +60,14 @@ src/
 ├── assets/                  # Static assets
 ├── components/
 │   ├── Badge.jsx            # Reusable status badge (Present, Absent, Top Performer)
+│   ├── CourseStats.jsx      # Per-course breakdown with progress bars
+│   ├── DashboardStats.jsx   # Overview stats panel (totals, averages, extremes)
 │   ├── HeroIllustration.jsx # SVG illustration for the landing page
 │   ├── Navbar.jsx           # Top navigation bar with auth links & theme toggle
 │   ├── ProtectedRoute.jsx   # Route guard — redirects unauthenticated users
 │   ├── SearchInput.jsx      # Controlled search input component
 │   ├── Skeleton.jsx         # Loading skeleton placeholder
-│   ├── StudentCard.jsx      # Card displaying student info, badges & actions
+│   ├── StudentCard.jsx      # Card with student info, inline editing & actions
 │   ├── StudentForm.jsx      # Form to add a new student
 │   └── ThemeToggle.jsx      # Dark / Light mode switcher
 ├── context/

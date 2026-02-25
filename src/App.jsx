@@ -3,8 +3,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import StudentForm from "./components/StudentForm";
 import StudentCard from "./components/StudentCard";
 import SearchInput from "./components/SearchInput";
+import DashboardStats from "./components/DashboardStats";
+import CourseStats from "./components/CourseStats";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -15,12 +18,12 @@ import "./App.css";
    Sample seed data (used on first visit only)
    ────────────────────────────────────────── */
 const SEED_STUDENTS = [
-  { id: 1, name: "Alice Johnson",  course: "BSC.CSIT",             grade: 94, isPresent: true  },
-  { id: 2, name: "Bob Smith",      course: "BIT",                  grade: 78, isPresent: false },
-  { id: 3, name: "Clara Lee",      course: "BSC.CSIT",             grade: 88, isPresent: true  },
-  { id: 4, name: "David Kim",      course: "Computer Engineering", grade: 92, isPresent: true  },
-  { id: 5, name: "Emily Chen",     course: "BCA",                  grade: 65, isPresent: false },
-  { id: 6, name: "Frank Patel",    course: "Computer Engineering", grade: 97, isPresent: true  },
+  { id: 1, name: "Alice Johnson",  course: "BSC.CSIT",             gpa: 3.8, isPresent: true  },
+  { id: 2, name: "Bob Smith",      course: "BIT",                  gpa: 3.1, isPresent: false },
+  { id: 3, name: "Clara Lee",      course: "BSC.CSIT",             gpa: 3.5, isPresent: true  },
+  { id: 4, name: "David Kim",      course: "Computer Engineering", gpa: 3.7, isPresent: true  },
+  { id: 5, name: "Emily Chen",     course: "BCA",                  gpa: 2.6, isPresent: false },
+  { id: 6, name: "Frank Patel",    course: "Computer Engineering", gpa: 3.9, isPresent: true  },
 ];
 
 /** Load students from localStorage or fall back to seed data */
@@ -87,6 +90,37 @@ function Dashboard() {
     );
   };
 
+  /** Edit a student's details by id */
+  const handleEditStudent = (id, updatedFields) => {
+    setStudents((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, ...updatedFields } : s))
+    );
+  };
+
+  /** Reset students back to original seed data */
+  const handleResetData = () => {
+    if (window.confirm("Reset all student data to defaults? This cannot be undone.")) {
+      setStudents(SEED_STUDENTS);
+      setNextId(SEED_STUDENTS.length + 1);
+    }
+  };
+
+  /** Export student data as CSV download */
+  const handleExportCSV = () => {
+    const header = "Name,Course,GPA,Attendance";
+    const rows = students.map(
+      (s) => `"${s.name}","${s.course}",${s.gpa},${s.isPresent ? "Present" : "Absent"}`
+    );
+    const csv = [header, ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "students.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   /* ──────── Filtering, Searching & Sorting pipeline ──────── */
   const filteredStudents = students
     .filter((s) => s.name.toLowerCase().includes(searchText.toLowerCase()))
@@ -97,8 +131,8 @@ function Dashboard() {
       return s.course === filterOption;          // course name
     })
     .sort((a, b) => {
-      if (sortOption === "name")  return a.name.localeCompare(b.name);
-      if (sortOption === "grade") return b.grade - a.grade; // highest first
+      if (sortOption === "name") return a.name.localeCompare(b.name);
+      if (sortOption === "gpa")  return b.gpa - a.gpa; // highest first
       return 0;
     });
 
@@ -109,10 +143,16 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <main className="container">
+        {/* ── Overview Stats ── */}
+        <DashboardStats students={students} />
+
+        {/* ── Course Breakdown ── */}
+        <CourseStats students={students} />
+
         {/* ── Add Student Form ── */}
         <StudentForm onAdd={handleAddStudent} />
 
-        {/* ── Toolbar: Search · Filter · Sort ── */}
+        {/* ── Toolbar: Search · Filter · Sort · Actions ── */}
         <section className="toolbar" aria-label="Search and filter controls">
           <SearchInput
             value={searchText}
@@ -144,10 +184,26 @@ function Dashboard() {
               onChange={(e) => setSortOption(e.target.value)}
             >
               <option value="name">Name (A–Z)</option>
-              <option value="grade">Grade (High → Low)</option>
+              <option value="gpa">GPA (High → Low)</option>
             </select>
           </div>
+
+          <div className="toolbar__actions">
+            <button className="btn btn--outline btn--sm" onClick={handleExportCSV} title="Export as CSV">
+              📥 Export CSV
+            </button>
+            <button className="btn btn--delete btn--sm" onClick={handleResetData} title="Reset to default data">
+              🔄 Reset
+            </button>
+          </div>
         </section>
+
+        {/* ── Student Count ── */}
+        {hasStudents && (
+          <div className="student-count">
+            Showing <strong>{filteredStudents.length}</strong> of <strong>{students.length}</strong> student{students.length !== 1 ? "s" : ""}
+          </div>
+        )}
 
         {/* ── Student List ── */}
         <section className="student-list" aria-label="Student list">
@@ -173,6 +229,7 @@ function Dashboard() {
                   student={student}
                   onDelete={handleDeleteStudent}
                   onToggle={handleToggleAttendance}
+                  onEdit={handleEditStudent}
                 />
               ))}
             </div>
@@ -213,6 +270,8 @@ function App() {
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      <Footer />
     </div>
   );
 }

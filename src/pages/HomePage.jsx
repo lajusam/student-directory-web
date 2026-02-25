@@ -76,8 +76,8 @@ function HomePage() {
           </div>
           <div className="feature-card">
             <span className="feature-card__icon">📊</span>
-            <h3>Track Grades</h3>
-            <p>Monitor grades at a glance. Top performers are highlighted automatically.</p>
+            <h3>Track GPA</h3>
+            <p>Monitor GPA at a glance. Top performers (≥ 3.6) are highlighted automatically.</p>
           </div>
           <div className="feature-card">
             <span className="feature-card__icon">✅</span>
@@ -87,7 +87,7 @@ function HomePage() {
           <div className="feature-card">
             <span className="feature-card__icon">🔍</span>
             <h3>Search & Filter</h3>
-            <p>Find students instantly. Filter by course, attendance, or sort by grade.</p>
+            <p>Find students instantly. Filter by course, attendance, or sort by GPA.</p>
           </div>
           <div className="feature-card">
             <span className="feature-card__icon">💾</span>
@@ -101,11 +101,6 @@ function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ── Footer ── */}
-      <footer className="home-footer">
-        <p>Student Directory &copy; 2026 — Built with React</p>
-      </footer>
     </div>
   );
 }

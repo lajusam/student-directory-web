@@ -19,7 +19,7 @@ function StudentForm({ onAdd }) {
   // ── Controlled form state ──
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
-  const [grade, setGrade] = useState("");
+  const [gpa, setGpa] = useState("");
   const [isPresent, setIsPresent] = useState(true);
 
   /** Validate & submit */
@@ -27,22 +27,22 @@ function StudentForm({ onAdd }) {
     e.preventDefault();
 
     // Basic validation
-    if (!name.trim() || !course || grade === "") return;
+    if (!name.trim() || !course || gpa === "") return;
 
-    const parsedGrade = Number(grade);
-    if (isNaN(parsedGrade) || parsedGrade < 0 || parsedGrade > 100) return;
+    const parsedGpa = Number(gpa);
+    if (isNaN(parsedGpa) || parsedGpa < 0 || parsedGpa > 4) return;
 
     onAdd({
       name: name.trim(),
       course: course.trim(),
-      grade: parsedGrade,
+      gpa: Math.round(parsedGpa * 100) / 100,
       isPresent,
     });
 
     // Reset form
     setName("");
     setCourse("");
-    setGrade("");
+    setGpa("");
     setIsPresent(true);
   };
 
@@ -80,17 +80,18 @@ function StudentForm({ onAdd }) {
           </select>
         </div>
 
-        {/* Grade */}
+        {/* GPA */}
         <div className="form-group">
-          <label htmlFor="student-grade">Grade (0–100)</label>
+          <label htmlFor="student-gpa">GPA (0.0–4.0)</label>
           <input
-            id="student-grade"
+            id="student-gpa"
             type="number"
             min="0"
-            max="100"
-            value={grade}
-            onChange={(e) => setGrade(e.target.value)}
-            placeholder="e.g. 85"
+            max="4"
+            step="0.1"
+            value={gpa}
+            onChange={(e) => setGpa(e.target.value)}
+            placeholder="e.g. 3.5"
             required
           />
         </div>
